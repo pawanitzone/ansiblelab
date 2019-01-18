@@ -5,7 +5,7 @@
      yum: name=httpd state=latest
    
    - name: Add website code index.html
-     command: echo "This is deployed index.html page using jenkins CI/CD" >> /var/www/html/index.html
+     copy: src=index.html dest=/var/www/html/index.html owner=root group=root mode=0644
      
    - name: start httpd service 
      service: name=httpd state=started enabled=yes

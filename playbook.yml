@@ -3,6 +3,9 @@
   tasks: 
    - name: Install httpd service 
      yum: name=httpd state=latest
-                                 
+   
+   - name: Add website code index.html
+     command: echo "This is deployed index.html page using jenkins CI/CD" >> /var/www/html/index.html
+     
    - name: start httpd service 
      service: name=httpd state=started enabled=yes

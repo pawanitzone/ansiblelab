@@ -1,0 +1,52 @@
+# Top level baseline playbook for QA/Dev systems
+# Currently has environment and access variables hard-coded. Only requires ansible-vault password
+# and target system(s).
+# Ansible vault password is stored in the ops general keepass
+# 
+# See example below for playbook usage.
+# Regions are currently configured as:
+#	US1ENG - CTW QA/Dev/PerfEng environments
+
+# Example usage: # ansible-playbook <playbook> -i <target system>,
+#
+---
+- hosts: "*"
+  become: true
+  become_user: root
+  tasks: 
+    - sysctl:
+       name: vm.swappiness
+       value: 0
+       state: present
+    - name: Make sure a service is running
+      systemd:
+       state: started
+       name: firewalld
+    - name: stop service firewalld , if running
+      systemd:
+       name: firewalld
+       state: stopped
+
+    - systemd:
+       name: firewalld
+       enabled: no
+
+    - name: example copying file with owner and permissions
+      copy:
+       src: rc.local
+       dest: /etc/rc.local
+       owner: root
+       group: root
+   
+    - name: Add user pri-hadoop
+      user: name=pri-hadoop  state=present createhome=yes
+
+    - lineinfile:
+       path: /etc/sudoers.d/ba_sudoers
+       line: '%pri-hadoop       ALL=(ALL)      NOPASSWD: ALL'
+ 
+    - lineinfile:
+       path: /etc/security/access.conf
+       insertafter: 'root'
+       line: "+ : pri-hadoop : ALL"
+ 

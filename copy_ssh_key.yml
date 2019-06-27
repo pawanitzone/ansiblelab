@@ -1,0 +1,27 @@
+# Top level baseline playbook for QA/Dev systems
+# Currently has environment and access variables hard-coded. Only requires ansible-vault password
+# and target system(s).
+# Ansible vault password is stored in the ops general keepass
+# 
+# See example below for playbook usage.
+# Regions are currently configured as:
+#	US1ENG - CTW QA/Dev/PerfEng environments
+
+# Example usage: # ansible-playbook <playbook> -i <target system>,
+#
+---
+- hosts: "*"
+  become: true
+  become_user: root
+  tasks: 
+   - name: Create .ssh directory
+     file: path=/home/pri-hadoop/.ssh state=directory owner=pri-hadoop group=pri-hadoop  mode=0700 
+
+   - name: create authorized_keys file
+     file: path=/home/pri-hadoop/.ssh/authorized_keys state=touch mode=0644
+
+   - name: insert public ssh key for user sahil
+     blockinfile:
+      dest: /home/pri-hadoop/.ssh/authorized_keys
+      block: | 
+       ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC62BbDgCkXU9dU5sTr7YhDGV4qvyEX19LwNOywDUGYqBmNvyZqaa2KRF53ZGwBltZSB1QlKuT2JQ4JuHGM61KebNKxz4HjyZpt4S3nnE49IuyT6SvgYNECFhgTLNfZmoRjveJHtyHAdsJJbW/sY3JH/HLJZT7jA0hxpf7NleFE0hSUdFhnqOLB03UcxhG6lwFl8xaPraNLvOZGBX1WQIVONWS2H8l0wpiThUYDhMRUTLYhb1mvHIyC4vcYCJ6gRCY+sd+nMAzEbfcTLsZdbGA2Q62cEaZzGbAG4VhmJkEH/hXHForusxajrod2H9ufYvpEQTg9ysE9yPEnBzizsNpV pri-hadoop@prf-us1-dhub11

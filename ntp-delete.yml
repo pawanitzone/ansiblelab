@@ -1,0 +1,21 @@
+# Top level baseline playbook for QA/Dev systems
+# Currently has environment and access variables hard-coded. Only requires ansible-vault password
+# and target system(s).
+# Ansible vault password is stored in the ops general keepass
+# 
+# See example below for playbook usage.
+# Regions are currently configured as:
+#	US1ENG - CTW QA/Dev/PerfEng environments
+
+# Example usage: # ansible-playbook <playbook> -i <target system>,
+#
+---
+- hosts: "*"
+  become: true
+  vars:
+    region: "US1ENG"
+    yupdate: "true"
+    US1ENG: "true"
+  roles:
+     - ntp
+     - selinux

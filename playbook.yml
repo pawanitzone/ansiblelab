@@ -1,15 +1,7 @@
 ---
 - hosts: webhost
   tasks: 
-   - name: Install Apache on CentOS  Server
-     when: ansible_os_family == "RedHat"
-     yum: name=httpd  state=present
-     become: yes
-     copy: src=index.html dest=/var/www/html/index.html owner=root group=root mode=0644
-     service: name=httpd state=started enabled=yes
-     
-     
-      
+
    - name: Install Apache on Ubuntu Server
      when: ansible_os_family == "Debian"
      apt: name=apache2 state=present

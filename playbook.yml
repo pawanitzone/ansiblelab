@@ -6,13 +6,11 @@
      apt: name=apache2 state=present
      when: ansible_os_family == "Debian"
      
-#     become: yes
-#     copy: src=index.html dest=/var/www/html/index.html owner=root group=root mode=0644
-#     service: name=apache2 state=started enabled=yes
-     
+   - name: Install httpd on RedHat Server
+     yum: name=httpd state=present
+     when: ansible_os_family == "RedHat"
    
-   #- name: Add website code index.html
-   #  copy: src=index.html dest=/var/www/html/index.html owner=root group=root mode=0644
-   #  
-   #- name: start httpd service 
-   #  service: name=httpd state=started enabled=yes
+   - name: Copy index test page
+     template:
+        src: "files/index.html"
+        dest: "/var/www/html/index.html"

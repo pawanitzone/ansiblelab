@@ -11,6 +11,6 @@
      when: ansible_os_family == "RedHat"
    
    - name: Copy index test page
-     template:
+     copy:
         src: "files/"
         dest: "/var/www/html/"

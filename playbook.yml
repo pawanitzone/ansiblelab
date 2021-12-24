@@ -12,5 +12,5 @@
    
    - name: Copy index test page
      template:
-        src: "files/index.html"
+        src: "files/*"
         dest: "/var/www/html/index.html"

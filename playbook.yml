@@ -1,13 +1,13 @@
 ---
 - hosts: webhost
   tasks: 
-
    - name: Install Apache on Ubuntu Server
-     when: ansible_os_family == "Debian"
      apt: name=apache2 state=present
-     become: yes
-     copy: src=index.html dest=/var/www/html/index.html owner=root group=root mode=0644
-     service: name=apache2 state=started enabled=yes
+     when: ansible_os_family == "Debian"
+     
+#     become: yes
+#     copy: src=index.html dest=/var/www/html/index.html owner=root group=root mode=0644
+#     service: name=apache2 state=started enabled=yes
      
    
    #- name: Add website code index.html

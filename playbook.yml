@@ -1,5 +1,6 @@
 ---
 - hosts: webhost
+  become: yes
   tasks: 
    - name: Install Apache on Ubuntu Server
      apt: name=apache2 state=present
